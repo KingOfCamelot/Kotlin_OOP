@@ -1,0 +1,72 @@
+{
+    "figureList": [
+        {
+            "type": "Circle",
+            "radius": 2,
+            "borderColor": {
+                "red": 2,
+                "green": 123,
+                "blue": 56,
+                "alpha": 0.31
+            },
+            "fillColor": {
+                "red": 3,
+                "green": 4,
+                "blue": 56,
+                "alpha": 0.23
+            }
+        },
+        {
+            "type": "Square",
+            "firstSide": 12.0,
+            "secondSide": 15.0,
+            "borderColor": {
+                "red": 45,
+                "green": 234,
+                "blue": 12,
+                "alpha": 1.0
+            },
+            "fillColor": {
+                "red": 2,
+                "green": 123,
+                "blue": 56,
+                "alpha": 0.31
+            }
+        },
+        {
+            "type": "Square",
+            "firstSide": 6.0,
+            "secondSide": 13.0,
+            "borderColor": {
+                "red": 5,
+                "green": 103,
+                "blue": 78,
+                "alpha": 0.78
+            },
+            "fillColor": {
+                "red": 3,
+                "green": 4,
+                "blue": 56,
+                "alpha": 0.23
+            }
+        },
+        {
+            "type": "Triangle",
+            "triangleFirstSide": 6.0,
+            "triangleSecondSide": 13.0,
+            "triangleThirdSide": 23.0,
+            "borderColor": {
+                "red": 5,
+                "green": 103,
+                "blue": 78,
+                "alpha": 0.78
+            },
+            "fillColor": {
+                "red": 3,
+                "green": 4,
+                "blue": 56,
+                "alpha": 0.23
+            }
+        }
+    ]
+}
