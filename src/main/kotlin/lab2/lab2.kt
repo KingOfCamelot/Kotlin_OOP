@@ -19,19 +19,12 @@ fun main() {
     val firstSquare = Square(12.0, 15.0, thirdColor, firstColor)
     val secondSquare = Square(6.0, 13.0, fourthColor, secondColor)
     val triangle = Triangle(6.0, 13.0, 23.0, fourthColor, secondColor)
-    val figureList = ShapeCollector()
+    val figureList = ShapeCollector<ColoredShape2d>()
 
     figureList.addFigures(circle)
     figureList.addFigures(firstSquare)
     figureList.addFigures(secondSquare)
     figureList.addFigures(triangle)
-
-    val json = Serialization()
-    val format = json.encode(figureList)
-    json.output(format, "output.json")
-
-    val input = json.input("input.json")
-    val decode = json.decode(input) as ArrayList<*>
 
     //sum of all figure
     figureList.sumSquareFigures()
@@ -53,7 +46,6 @@ fun main() {
     figureList.searchFillColor(secondColor)
     //finding shapes by a specific type
     figureList.searchType()
-
 }
 
 val json = Json {
@@ -69,7 +61,7 @@ val json = Json {
 
 class Serialization
 {
-    fun encode(input: ShapeCollector): String {
+    fun encode(input: ShapeCollector<ColoredShape2d>): String {
         return json.encodeToString(input)
     }
 
@@ -77,7 +69,7 @@ class Serialization
         return File(line).readText()
     }
 
-    fun decode(output: String): ShapeCollector {
+    fun decode(output: String): ShapeCollector<ColoredShape2d> {
         return json.decodeFromString(output)
     }
 
@@ -145,14 +137,15 @@ class Triangle(
 }
 
 @kotlinx.serialization.Serializable
-class ShapeCollector {
-    private var figureList: ArrayList<ColoredShape2d> = arrayListOf()
+class ShapeCollector<T : ColoredShape2d> {
+    private var figureList: ArrayList<T> = arrayListOf()
     private var sumSquare: Double = 0.0
-    fun addFigures(figure: ColoredShape2d) {
+
+    fun addFigures(figure: T) {
         figureList.add(figure)
     }
 
-    fun listAllFigures(): List<ColoredShape2d> {
+    fun listAllFigures(): ArrayList<T> {
         return figureList
     }
 
@@ -197,8 +190,8 @@ class ShapeCollector {
         return maxFigure
     }
 
-    fun searchBorderColor(key: ColorOfRGBA): List<ColoredShape2d> {
-        val listKeepFiguries: ArrayList<ColoredShape2d> = arrayListOf()
+    fun searchBorderColor(key: ColorOfRGBA): ArrayList<T> {
+        val listKeepFiguries: ArrayList<T> = arrayListOf()
         val size = figureList.size - 1
         for (i in 0..size) {
             if (figureList[i].borderColor == key) {
@@ -208,20 +201,8 @@ class ShapeCollector {
         return listKeepFiguries
     }
 
-    fun mapFillColor(): Map<ColorOfRGBA, List<ColoredShape2d>> {
-        return figureList.groupBy { it.fillColor }
-    }
-
-    fun mapBorderColor(): Map<ColorOfRGBA, List<ColoredShape2d>> {
-        return figureList.groupBy { it.borderColor }
-    }
-
-    fun searchType(): Map<Class<Any>, List<ColoredShape2d>> {
-        return figureList.groupBy { it.javaClass }
-    }
-
-    fun searchFillColor(key: ColorOfRGBA): List<ColoredShape2d> {
-        val listKeepFiguries: ArrayList<ColoredShape2d> = arrayListOf()
+    fun searchFillColor(key: ColorOfRGBA): ArrayList<T> {
+        val listKeepFiguries: ArrayList<T> = arrayListOf()
         val size = figureList.size - 1
         for (i in 0..size) {
             if (figureList[i].fillColor == key) {
@@ -229,5 +210,29 @@ class ShapeCollector {
             }
         }
         return listKeepFiguries
+    }
+
+    fun mapFillColor(): Map<ColorOfRGBA, List<T>> {
+        return figureList.groupBy { it.fillColor }
+    }
+
+    fun mapBorderColor(): Map<ColorOfRGBA, List<T>> {
+        return figureList.groupBy { it.borderColor }
+    }
+
+    fun searchType(): Map<Class<Any>, List<T>> = figureList.groupBy { it.javaClass }
+
+    fun addAll(shapeList: List<T>) {
+        figureList.forEach()
+        {
+            figureList.add(it)
+        }
+    }
+
+    fun getSorted(comparator: Comparator<T>): List<T>
+    {
+        val sortList = figureList
+        sortList.sortWith(comparator)
+        return sortList
     }
 }
